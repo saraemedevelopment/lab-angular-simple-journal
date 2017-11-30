@@ -3,17 +3,21 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import {EntryService} from './services/service';
+
 import { RouterModule } from '@angular/router';
 
 import { routes } from './routes';
 
 import { AppComponent } from './app.component';
 import { EntryListComponent } from './entry-list/entry-list.component';
+import { SingleEntryComponent } from './single-entry/single-entry.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EntryListComponent
+    EntryListComponent,
+    SingleEntryComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +26,7 @@ import { EntryListComponent } from './entry-list/entry-list.component';
     RouterModule.forRoot (routes)
 
   ],
-  providers: [],
+  providers: [EntryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

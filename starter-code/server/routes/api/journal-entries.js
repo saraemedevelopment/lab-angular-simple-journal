@@ -2,6 +2,16 @@ const express       = require('express');
 const router        = express.Router();
 const Entry         = require('../../models/journal-entry');
 
+
+const checkIDParam = (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({
+      message: 'Specified id is not valid'
+    });
+  }
+  next();
+};
+
 router.get('/journal-entries', (req, res, next) => {
   Entry.find({}, (err, entries) => {
     if (err) { return res.json(err).status(500); }
@@ -18,6 +28,13 @@ router.get('/journal-entries/:id', (req, res, next) => {
     return res.json(entry);
   });
 });
+
+/* GET a single Model. */
+  router.get('/:id', checkIDParam, (req, res) => {
+    Entry.findById(req.params.id)
+      .then(o => res.json(o))
+      .catch(e => res.json(e));
+  });
 
 router.post('/journal-entries', (req, res, next) => {
   const newEntry = new Entry({
